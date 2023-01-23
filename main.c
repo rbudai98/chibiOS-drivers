@@ -95,13 +95,13 @@ int main(void) {
       /* Configuring PC7 as AF8 assigning it to USART6_RX. */
       palSetPadMode(GPIOC, 7, PAL_MODE_ALTERNATE(8));
 
-      sdStart(&SD5, NULL);
+      sdStart(&SD3, NULL);
 
       chThdCreateStatic(waThread1, sizeof(waThread1), NORMALPRIO + 1, Thread1, NULL);
 
       while (true) {
 
-        sdPut(&SD5, (int8_t)'a');
+        sdPut(&SD3, (int8_t)'a');
 
         /* Checking the button status. */
         if (palReadLine(LINE_ARD_D0) == PAL_HIGH) {
