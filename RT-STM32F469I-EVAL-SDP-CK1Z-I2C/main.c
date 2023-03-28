@@ -79,7 +79,7 @@ int main(void) {
   uint8_t tmpRegAddr = 0x00;
   uint8_t rxBuffer[2] = {0,0};
 
-  //NO-OS driver
+  //NO-OS driver for MAX31875PMB1
   struct no_os_i2c_desc *idesc;
   no_os_i2c_init(&idesc, &testCfg);
   no_os_i2c_write(idesc, &configBuff, 3, 1);
