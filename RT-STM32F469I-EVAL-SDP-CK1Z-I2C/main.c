@@ -39,17 +39,22 @@ static THD_FUNCTION(ThreadBlinker, arg) {
 /*
  * Application entry point.
  */
-
+//
 static I2CConfig chI2CConfig = {
      OPMODE_I2C,
      100000,
      STD_DUTY_CYCLE,
 };
 
+static struct chibios_i2c_init_param testParam ={
+    .hi2c = &I2CD1,
+    .i2ccfg = &chI2CConfig,
+};
+
 static struct no_os_i2c_init_param testCfg ={
      .device_id=1,
      .slave_address = (uint8_t)0b1001000,
-     .extra = &chI2CConfig,
+     .extra = &testParam,
      .platform_ops = &chibios_i2c_ops,
 };
 
@@ -79,7 +84,7 @@ int main(void) {
   uint8_t tmpRegAddr = 0x00;
   uint8_t rxBuffer[2] = {0,0};
 
-  //NO-OS driver
+  //NO-OS driver for MAX31875PMB1
   struct no_os_i2c_desc *idesc;
   no_os_i2c_init(&idesc, &testCfg);
   no_os_i2c_write(idesc, &configBuff, 3, 1);
@@ -94,9 +99,7 @@ int main(void) {
   while(1) {
     no_os_i2c_write(idesc, &tmpRegAddr, 1, 0);
     no_os_i2c_read(idesc, &rxBuffer, 2, 1);
-
     int8_t tmp_val = rxBuffer[0];
-
     chprintf(chp, "Temperature: %d celsius\n\r", tmp_val);
     chThdSleepMilliseconds(1000);
   }
