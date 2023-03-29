@@ -41,15 +41,23 @@ static struct no_os_gpio_init_param chibios_GPIO_6 = {
 static struct no_os_gpio_desc *gpio_desc_6;
 
 static struct adxl355_dev *adxl355_desc;
-static struct chibios_spi_init_param chibios_spi_extra_ip  = {
-    .circular         = false,
-    .slave            = false,
-    .data_cb          = NULL,
-    .error_cb         = NULL,
-    .ssline           = LINE_ARD_D10,
-    .cr1              = SPI_CR1_BR_2,
-    .cr2              = 0
+
+static SPIConfig spicfg = {
+  .circular         = false,
+  .slave            = false,
+  .data_cb          = NULL,
+  .error_cb         = NULL,
+  .ssline           = LINE_ARD_D10,
+  .cr1              = SPI_CR1_BR_2,
+  .cr2              = 0
 };
+
+static struct chibios_spi_init_param chibios_spi_extra_ip  = {
+   .hspi=&SPID1,
+   .spicfg=&spicfg,
+};
+
+
 static struct no_os_spi_init_param adxl355_spi_ip = {
     .device_id = 1,
     .max_speed_hz = 4000000,
@@ -59,6 +67,7 @@ static struct no_os_spi_init_param adxl355_spi_ip = {
     .chip_select = 15,
     .extra = &chibios_spi_extra_ip,
 };
+
 static struct adxl355_init_param adxl355_ip = {
     .comm_type = ADXL355_SPI_COMM,
     .dev_type = ID_ADXL355,
@@ -68,16 +77,11 @@ static struct adxl355_init_param adxl355_ip = {
 static THD_FUNCTION(ThreadBlinker, arg) {
 
   (void)arg;
-
   chRegSetThreadName("blinker");
-  palSetLineMode(LINE_ARD_D9, PAL_MODE_OUTPUT_OPENDRAIN);
-  no_os_gpio_get(&gpio_desc_6, &chibios_GPIO_6);
-
   while (true) {
-    no_os_gpio_set_value(gpio_desc_6, PAL_LOW);
-    chThdSleepMilliseconds(1000);
-    no_os_gpio_set_value(gpio_desc_6, PAL_HIGH);
-    chThdSleepMilliseconds(1000);
+
+    palToggleLine(LINE_LED_GREEN);
+    chThdSleepMilliseconds(200);
   }
 }
 
@@ -169,7 +173,7 @@ int main(void) {
 
   while(1) {
 
-    chprintf(chp, "Single read \n\r");
+       chprintf(chp, "Single read \n\r");
       ret = adxl355_get_xyz(adxl355_desc,&x[0], &y[0], &z[0]);
       if (ret)
           goto error;
