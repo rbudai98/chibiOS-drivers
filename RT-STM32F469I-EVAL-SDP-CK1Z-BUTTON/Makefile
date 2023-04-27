@@ -89,11 +89,36 @@ PROJECT = ch
 MCU  = cortex-m4
 
 # Imported source files and paths.
-CHIBIOS  := ../../chibios2111
+CHIBIOS  := ../chibios2111
 CONFDIR  := ./cfg
 BUILDDIR := ./build
 DEPDIR   := ./.dep
-NOOS	 := ../../no-OS-ChibiOS
+NOOS	 := ../../no-os/
+
+#no-os headers
+NOOS_INC 	:= $(NOOS)/include/
+
+#no-os API
+NOOS_SRC 	:= 	$(NOOS)/drivers/api/no_os_gpio.c 
+
+#linking platform
+NOOS_INC 	+= 	$(NOOS)/drivers/platform/chibios/
+
+NOOS_SRC 	+= 	$(NOOS)/drivers/platform/chibios/chibios_gpio.c \
+				$(NOOS)/drivers/platform/chibios/chibios_delay.c \
+				$(NOOS)/drivers/platform/chibios/chibios_alloc.c 
+				
+#link utils
+NOOS_SRC 	+= 	$(NOOS)/util/no_os_util.c
+
+#linking drivers
+NOOS_INC 	+= 	$(NOOS)/drivers/accel/adxl355/
+NOOS_SRC 	+= 	$(NOOS)/drivers/accel/adxl355/adxl355.c
+
+#linking all
+ALLINC  	+= $(NOOS_INC)
+ALLCSRC 	+= $(NOOS_SRC)
+
 
 # Licensing files.
 include $(CHIBIOS)/os/license/license.mk
@@ -111,8 +136,6 @@ include $(CHIBIOS)/os/common/ports/ARMv7-M/compilers/GCC/mk/port.mk
 include $(CHIBIOS)/tools/mk/autobuild.mk
 # Other files (optional).
 include $(CHIBIOS)/os/hal/lib/streams/streams.mk
-#linking no-os wrapper
-include $(NOOS)/drivers/platform/chibios/chibios.mk
 
 
 # Define linker script file here
