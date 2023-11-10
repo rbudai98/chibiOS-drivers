@@ -1,0 +1,8 @@
+build
+.dep
+.vscode
+.project
+*.zip
+*.tar
+.cproject
+.project
