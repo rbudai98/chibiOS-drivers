@@ -24,10 +24,15 @@ Alternatively one can clone the repository directly into ```C:/ChibiOS/``` with 
 ```console
 git clone https://github.com/rbudai98/chibiOS-drivers.git
 ```
-### Testing
+### For Testing
 * For serial testing install [Putty](https://www.putty.org/) or [Terra Term](https://tera-term.en.softonic.com/).
 
 ## Projects
+### Opening Project:
+For source code editing and flashing the chibios studio framework is used. One can import any project at ```Files``` -> ```Open Project from File System``` -> Select workdir and project -> ```Finish```
+
+![Import steps](misc/project_import_steps.jpg "Import project")
+
 ### [RT-STM32F469I-EVAL-SDP-CK1Z-ADXL355](https://github.com/rbudai98/chibiOS-drivers/tree/main/RT-STM32F469I-EVAL-SDP-CK1Z-ADXL355)
 ### [RT-STM32F469I-EVAL-SDP-CK1Z-BUTTON](https://github.com/rbudai98/chibiOS-drivers/tree/main/RT-STM32F469I-EVAL-SDP-CK1Z-BUTTON)
 ### [RT-STM32F469I-EVAL-SDP-CK1Z-GPIO](https://github.com/rbudai98/chibiOS-drivers/tree/main/RT-STM32F469I-EVAL-SDP-CK1Z-GPIO)
