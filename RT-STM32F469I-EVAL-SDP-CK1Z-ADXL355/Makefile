@@ -89,11 +89,16 @@ PROJECT = ch
 MCU  = cortex-m4
 
 # Imported source files and paths.
-CHIBIOS  := ../chibios2111
+CHIBIOS  := ../../chibios2111
 CONFDIR  := ./cfg
 BUILDDIR := ./build
 DEPDIR   := ./.dep
-NOOS	 := ../../no-os/
+NOOS	 := 
+
+ifeq ($(NOOS),)
+$(error $(ENDL)$(ENDL) NOOS directory not specified, please set the path in the Makefile. \
+		"Ex: NOOS := C:/Users/user/Workspace_no_os/no-os"$(ENDL)$(ENDL))
+endif
 
 #no-os headers
 NOOS_INC 	:= $(NOOS)/include/
