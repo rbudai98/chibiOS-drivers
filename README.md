@@ -8,17 +8,10 @@ ChibiOS and no-OS drivers
     2. [For testing](#testing)
 4. [Projects](#project)
     1. [Open project](#open-project)
-    1. [RT-STM32F469I-EVAL-SDP-CK1Z-ADXL355](#adxl)
-    1. [RT-STM32F469I-EVAL-SDP-CK1Z-BUTTON](#button)
     1. [RT-STM32F469I-EVAL-SDP-CK1Z-GPIO](#gpio)
+    1. [RT-STM32F469I-EVAL-SDP-CK1Z-BUTTON](#button)
+    1. [RT-STM32F469I-EVAL-SDP-CK1Z-ADXL355](#adxl)
     1. [RT-STM32F469I-EVAL-SDP-CK1Z-I2C](#i2c)
-
-
-## Containing folders: <a name="content"></a>
-* [RT-STM32F469I-EVAL-SDP-CK1Z-ADXL355](https://github.com/rbudai98/chibiOS-drivers/tree/main/RT-STM32F469I-EVAL-SDP-CK1Z-ADXL355)
-* [RT-STM32F469I-EVAL-SDP-CK1Z-BUTTON](https://github.com/rbudai98/chibiOS-drivers/tree/main/RT-STM32F469I-EVAL-SDP-CK1Z-BUTTON)
-* [RT-STM32F469I-EVAL-SDP-CK1Z-GPIO](https://github.com/rbudai98/chibiOS-drivers/tree/main/RT-STM32F469I-EVAL-SDP-CK1Z-GPIO)
-* [RT-STM32F469I-EVAL-SDP-CK1Z-I2C](https://github.com/rbudai98/chibiOS-drivers/tree/main/RT-STM32F469I-EVAL-SDP-CK1Z-I2C)
 
 ## Usage: <a name="usage"></a>
 1. Install ChibiOS: https://www.chibios.org/dokuwiki/doku.php
@@ -48,45 +41,6 @@ For source code editing and flashing the chibios studio framework is used. One c
 
 ![Import steps](misc/project_import_steps.jpg "Import project")
 
-### [RT-STM32F469I-EVAL-SDP-CK1Z-ADXL355](https://github.com/rbudai98/chibiOS-drivers/tree/main/RT-STM32F469I-EVAL-SDP-CK1Z-ADXL355) <a name="adxl"></a>
-### [RT-STM32F469I-EVAL-SDP-CK1Z-BUTTON](https://github.com/rbudai98/chibiOS-drivers/tree/main/RT-STM32F469I-EVAL-SDP-CK1Z-BUTTON) <a name="button"></a>
-
-* Equipment:
-    * board: [EVAL-SDP-CK1Z](https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/sdp-k1.html)
-    * button and cables
-
-* Wiring diagram:
-![WIRING_SDPK1_BUTTON](RT-STM32F469I-EVAL-SDP-CK1Z-BUTTON/WIRING_SDPK1_BUTTON.jpg "WIRING_SDPK1_BUTTON")
-    
-* API:
-
-Chibios provides a initalization structure for GPIO pins with properties (PORT, PAD and MODE):
-```console
-struct chibios_gpio_init_param chibios_gpio_extra_ip_5 = {
-  .port = GPIOA,
-  .pad = 1U,
-  .mode = PAL_MODE_OUTPUT_PUSHPULL,
-};
-```
-This init param has to be set properly first. After this it is linked to ```no_os_gpio_init_param``` structure via a pointer, found within the no_os api:
-
-```console
-struct no_os_gpio_init_param chibios_GPIO_5 = {
-  .platform_ops = &chibios_gpio_ops,
-  .extra = &chibios_gpio_extra_ip_5,
-};
-```
-In order to initialize the gpio pin:
-```console
-no_os_gpio_get(&gpio_desc_5, &chibios_GPIO_5);
-```
-After initialization the GPIO pin has been assigned the proper values and is ready to be used. To read it's value an extra variable is declared, as follows:
-```console
-uint8_t tmp;
-no_os_gpio_get_value(gpio_desc_5, &tmp);
-```
-The serial output should be the following:
-![serial_output](RT-STM32F469I-EVAL-SDP-CK1Z-BUTTON/serial_output.JPG "serial_output")
 ### [RT-STM32F469I-EVAL-SDP-CK1Z-GPIO](https://github.com/rbudai98/chibiOS-drivers/tree/main/RT-STM32F469I-EVAL-SDP-CK1Z-GPIO) <a name="gpio"></a>
 
 * Equipment:
@@ -125,4 +79,86 @@ chThdSleepMilliseconds(1000);
 no_os_gpio_set_value(gpio_desc, PAL_HIGH);
 chThdSleepMilliseconds(1000);
 ```
+
+### [RT-STM32F469I-EVAL-SDP-CK1Z-BUTTON](https://github.com/rbudai98/chibiOS-drivers/tree/main/RT-STM32F469I-EVAL-SDP-CK1Z-BUTTON) <a name="button"></a>
+
+* Equipment:
+    * board: [EVAL-SDP-CK1Z](https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/sdp-k1.html)
+    * button and cables
+
+* Wiring diagram:
+![WIRING_SDPK1_BUTTON](RT-STM32F469I-EVAL-SDP-CK1Z-BUTTON/WIRING_SDPK1_BUTTON.jpg "WIRING_SDPK1_BUTTON")
+    
+* API:
+
+Chibios provides a initalization structure for GPIO pins with properties (PORT, PAD and MODE):
+```console
+struct chibios_gpio_init_param chibios_gpio_extra_ip_5 = {
+  .port = GPIOA,
+  .pad = 1U,
+  .mode = PAL_MODE_OUTPUT_PUSHPULL,
+};
+```
+This init param has to be set properly first. After this it is linked to ```no_os_gpio_init_param``` structure via a pointer, found within the no_os api:
+
+```console
+struct no_os_gpio_init_param chibios_GPIO_5 = {
+  .platform_ops = &chibios_gpio_ops,
+  .extra = &chibios_gpio_extra_ip_5,
+};
+```
+In order to initialize the gpio pin:
+```console
+no_os_gpio_get(&gpio_desc_5, &chibios_GPIO_5);
+```
+After initialization the GPIO pin has been assigned the proper values and is ready to be used. To read it's value an extra variable is declared, as follows:
+```console
+uint8_t tmp;
+no_os_gpio_get_value(gpio_desc_5, &tmp);
+```
+The serial output should be the following:
+![serial_output](RT-STM32F469I-EVAL-SDP-CK1Z-BUTTON/serial_output.JPG "serial_output")
+
+
+### [RT-STM32F469I-EVAL-SDP-CK1Z-ADXL355](https://github.com/rbudai98/chibiOS-drivers/tree/main/RT-STM32F469I-EVAL-SDP-CK1Z-ADXL355) <a name="adxl"></a>
+
+* Equipment:
+    * board: [EVAL-SDP-CK1Z](https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/sdp-k1.html)
+    * sensor: [ADXL3558](https://wiki.analog.com/resources/eval/user-guides/eval-adicup360/hardware/adxl355)
+    * cables
+
+* Wiring diagram:
+![WIRING_SDPK1_ADXL](RT-STM32F469I-EVAL-SDP-CK1Z-ADXL355/WIRING_SDPK1_ADXL355.jpg "WIRING_SDPK1_ADXL")
+    
+* API:
+
+Chibios provides a initalization structure for GPIO pins with properties (PORT, PAD and MODE):
+```console
+struct chibios_gpio_init_param chibios_gpio_extra_ip_5 = {
+  .port = GPIOA,
+  .pad = 1U,
+  .mode = PAL_MODE_OUTPUT_PUSHPULL,
+};
+```
+This init param has to be set properly first. After this it is linked to ```no_os_gpio_init_param``` structure via a pointer, found within the no_os api:
+
+```console
+struct no_os_gpio_init_param chibios_GPIO_5 = {
+  .platform_ops = &chibios_gpio_ops,
+  .extra = &chibios_gpio_extra_ip_5,
+};
+```
+In order to initialize the gpio pin:
+```console
+no_os_gpio_get(&gpio_desc_5, &chibios_GPIO_5);
+```
+After initialization the GPIO pin has been assigned the proper values and is ready to be used. To read it's value an extra variable is declared, as follows:
+```console
+uint8_t tmp;
+no_os_gpio_get_value(gpio_desc_5, &tmp);
+```
+The serial output should be the following:
+![serial_output](RT-STM32F469I-EVAL-SDP-CK1Z-BUTTON/serial_output.JPG "serial_output")
+
+
 ### [RT-STM32F469I-EVAL-SDP-CK1Z-I2C](https://github.com/rbudai98/chibiOS-drivers/tree/main/RT-STM32F469I-EVAL-SDP-CK1Z-I2C) <a name="i2c"></a>
