@@ -93,7 +93,7 @@ CHIBIOS  := ../../chibios2111
 CONFDIR  := ./cfg
 BUILDDIR := ./build
 DEPDIR   := ./.dep
-NOOS	 := 
+NOOS	 := C:/Users/rbudai/Workspace_no_os/no-os
 
 ifeq ($(NOOS),)
 $(error $(ENDL)$(ENDL) NOOS directory not specified, please set the path in the Makefile. \
@@ -107,7 +107,8 @@ NOOS_INC 	:= $(NOOS)/include/
 NOOS_SRC 	:= 	$(NOOS)/drivers/api/no_os_gpio.c \
               $(NOOS)/drivers/api/no_os_spi.c \
               $(NOOS)/drivers/api/no_os_i2c.c \
-              $(NOOS)/drivers/api/no_os_uart.c
+              $(NOOS)/drivers/api/no_os_uart.c \
+              $(NOOS)/util/no_os_mutex.c 
 
 #linking platform
 NOOS_INC 	+= 	$(NOOS)/drivers/platform/chibios/
