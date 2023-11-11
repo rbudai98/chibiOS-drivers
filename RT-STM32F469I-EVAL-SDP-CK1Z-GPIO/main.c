@@ -20,34 +20,30 @@
 
 static THD_WORKING_AREA(waThreadBlinker, 128);
 
-static struct chibios_gpio_init_param chibios_gpio_extra_ip_6 = {
-  .port = GPIOG,
-  .pad = 11U,
+static struct chibios_gpio_init_param chibios_gpio_extra_ip = {
+  .port = GPIOB,
+  .pad = 15U,
   .mode = PAL_MODE_OUTPUT_OPENDRAIN,
 };
 
-static struct no_os_gpio_init_param chibios_GPIO_6 = {
+static struct no_os_gpio_init_param chibios_GPIO = {
   .platform_ops = &chibios_gpio_ops,
-  .extra = &chibios_gpio_extra_ip_6,
+  .extra = &chibios_gpio_extra_ip,
 };
 
-static struct no_os_gpio_desc *gpio_desc_6;
+static struct no_os_gpio_desc *gpio_desc;
 
 static THD_FUNCTION(ThreadBlinker, arg) {
 
   (void)arg;
 
   chRegSetThreadName("blinker");
-
-
-  palSetLineMode(LINE_ARD_D9, PAL_MODE_OUTPUT_OPENDRAIN);
-
-  no_os_gpio_get(&gpio_desc_6, &chibios_GPIO_6);
+  no_os_gpio_get(&gpio_desc, &chibios_GPIO);
 
   while (true) {
-    no_os_gpio_set_value(gpio_desc_6, PAL_LOW);
+    no_os_gpio_set_value(gpio_desc, PAL_LOW);
     chThdSleepMilliseconds(1000);
-    no_os_gpio_set_value(gpio_desc_6, PAL_HIGH);
+    no_os_gpio_set_value(gpio_desc, PAL_HIGH);
     chThdSleepMilliseconds(1000);
   }
 }
