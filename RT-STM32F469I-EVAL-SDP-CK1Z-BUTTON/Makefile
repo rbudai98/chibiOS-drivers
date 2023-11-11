@@ -93,7 +93,7 @@ CHIBIOS  := ../../chibios2111
 CONFDIR  := ./cfg
 BUILDDIR := ./build
 DEPDIR   := ./.dep
-NOOS	 := 
+NOOS	 := C:/Users/rbudai/Workspace_no_os/no-os
 
 ifeq ($(NOOS),)
 $(error $(ENDL)$(ENDL) NOOS directory not specified, please set the path in the Makefile. \
