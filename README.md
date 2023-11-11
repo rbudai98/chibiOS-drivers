@@ -88,4 +88,41 @@ no_os_gpio_get_value(gpio_desc_5, &tmp);
 The serial output should be the following:
 ![serial_output](RT-STM32F469I-EVAL-SDP-CK1Z-BUTTON/serial_output.JPG "serial_output")
 ### [RT-STM32F469I-EVAL-SDP-CK1Z-GPIO](https://github.com/rbudai98/chibiOS-drivers/tree/main/RT-STM32F469I-EVAL-SDP-CK1Z-GPIO) <a name="gpio"></a>
+
+* Equipment:
+    * board: [EVAL-SDP-CK1Z](https://www.analog.com/en/design-center/evaluation-hardware-and-software/evaluation-boards-kits/sdp-k1.html)
+    * led, resistor and cables
+
+* Wiring diagram:
+![WIRING_SDPK1_BUTTON](RT-STM32F469I-EVAL-SDP-CK1Z-GPIO/WIRING_SDPK1_GPIO.jpg "WIRING_SDPK1_BUTTON")
+    
+* API:
+
+Chibios provides a initalization structure for GPIO pins with properties (PORT, PAD and MODE):
+```console
+struct chibios_gpio_init_param chibios_gpio_extra_ip = {
+  .port = GPIOB,
+  .pad = 15U,
+  .mode = PAL_MODE_OUTPUT_OPENDRAIN,
+};
+```
+This init param has to be set properly first. After this it is linked to ```no_os_gpio_init_param``` structure via a pointer, found within the no_os api:
+
+```console
+struct no_os_gpio_init_param chibios_GPIO = {
+  .platform_ops = &chibios_gpio_ops,
+  .extra = &chibios_gpio_extra_ip,
+};
+```
+In order to initialize the gpio pin:
+```console
+no_os_gpio_get(&gpio_desc, &chibios_GPIO);
+```
+After initialization the GPIO pin has been assigned the proper values and is ready to be used. To alternate the led:
+```console
+no_os_gpio_set_value(gpio_desc, PAL_LOW);
+chThdSleepMilliseconds(1000);
+no_os_gpio_set_value(gpio_desc, PAL_HIGH);
+chThdSleepMilliseconds(1000);
+```
 ### [RT-STM32F469I-EVAL-SDP-CK1Z-I2C](https://github.com/rbudai98/chibiOS-drivers/tree/main/RT-STM32F469I-EVAL-SDP-CK1Z-I2C) <a name="i2c"></a>
