@@ -100,32 +100,25 @@ $(error $(ENDL)$(ENDL) NOOS directory not specified, please set the path in the 
 		"Ex: NOOS := C:/Users/user/Workspace_no_os/no-os"$(ENDL)$(ENDL))
 endif
 
-#no-os headers
+#NO-OS API
 NOOS_INC 	:= $(NOOS)/include/
-
-#no-os API
 NOOS_SRC 	:= 	$(NOOS)/drivers/api/no_os_gpio.c \
               $(NOOS)/drivers/api/no_os_spi.c \
               $(NOOS)/drivers/api/no_os_i2c.c \
               $(NOOS)/drivers/api/no_os_uart.c \
               $(NOOS)/util/no_os_mutex.c 
 
-#linking platform
+#NO-OS API IMPLEMENTATION
 NOOS_INC 	+= 	$(NOOS)/drivers/platform/chibios/
-
 NOOS_SRC 	+= 	$(NOOS)/drivers/platform/chibios/chibios_gpio.c \
 				$(NOOS)/drivers/platform/chibios/chibios_delay.c \
 				$(NOOS)/drivers/platform/chibios/chibios_alloc.c \
 				$(NOOS)/drivers/platform/chibios/chibios_spi.c \
 				$(NOOS)/drivers/platform/chibios/chibios_i2c.c \
 				$(NOOS)/drivers/platform/chibios/chibios_uart.c 
-
-
-
-#link utils
 NOOS_SRC 	+= 	$(NOOS)/util/no_os_util.c
 
-#linking drivers
+#NO-OS DRIVERS
 NOOS_INC 	+= 	$(NOOS)/drivers/accel/adxl355/
 NOOS_SRC 	+= 	$(NOOS)/drivers/accel/adxl355/adxl355.c
 
