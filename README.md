@@ -132,33 +132,78 @@ The serial output should be the following:
     
 * API:
 
-Chibios provides a initalization structure for GPIO pins with properties (PORT, PAD and MODE):
+Chibios offers a the SPI initialization parameter:
 ```console
-struct chibios_gpio_init_param chibios_gpio_extra_ip_5 = {
-  .port = GPIOA,
-  .pad = 1U,
-  .mode = PAL_MODE_OUTPUT_PUSHPULL,
+SPIConfig spicfg = {
+  .circular         = false,
+  .slave            = false,
+  .data_cb          = NULL,
+  .error_cb         = NULL,
+  .ssline           = LINE_ARD_D10,
+  .cr1              = SPI_CR1_BR_2,
+  .cr2              = 0
 };
 ```
-This init param has to be set properly first. After this it is linked to ```no_os_gpio_init_param``` structure via a pointer, found within the no_os api:
 
+The previous configuration is assigned to the no-os initialization parameter structure:
 ```console
-struct no_os_gpio_init_param chibios_GPIO_5 = {
-  .platform_ops = &chibios_gpio_ops,
-  .extra = &chibios_gpio_extra_ip_5,
+struct chibios_spi_init_param chibios_spi_extra_ip  = {
+   .hspi=&SPID1,
+   .spicfg=&spicfg,
 };
 ```
-In order to initialize the gpio pin:
+This configuration is later linked to the No-Os API through the ```no_os_spi_init_param```-> ```extra```:
 ```console
-no_os_gpio_get(&gpio_desc_5, &chibios_GPIO_5);
+struct no_os_spi_init_param adxl355_spi_ip = {
+    .platform_ops = &chibios_spi_ops,
+    .extra = &chibios_spi_extra_ip,
+};
 ```
-After initialization the GPIO pin has been assigned the proper values and is ready to be used. To read it's value an extra variable is declared, as follows:
+
+Later these setting are assigned to the device descriptor in the following line:
 ```console
-uint8_t tmp;
-no_os_gpio_get_value(gpio_desc_5, &tmp);
+  adxl355_ip.comm_init.spi_init = adxl355_spi_ip;
 ```
+
+Before using the device drive we have to assign the appropriate variables for the device's initialization parameter:
+```console
+struct adxl355_init_param adxl355_ip = {
+    .comm_type = ADXL355_SPI_COMM,
+    .dev_type = ID_ADXL355,
+};
+
+```
+
+After having the appropriate settings, we can initialize the driver, read-write registers and obtain data:
+```console
+  ret = adxl355_init(&adxl355_desc, adxl355_ip);
+  if (ret)
+      goto error;
+  ret = adxl355_soft_reset(adxl355_desc);
+  if (ret)
+      goto error;
+  ret = adxl355_set_odr_lpf(adxl355_desc, ADXL355_ODR_3_906HZ);
+  if (ret)
+      goto error;
+  ret = adxl355_set_op_mode(adxl355_desc, ADXL355_MEAS_TEMP_ON_DRDY_OFF);
+  if (ret)
+      goto error;
+
+  sdStart(&SD5, NULL);
+
+  while(1) {
+      ret = adxl355_get_xyz(adxl355_desc,&x[0], &y[0], &z[0]);
+  }
+  
+error:
+  return 0;
+```
+
+
+
+where the 
 The serial output should be the following:
-![serial_output](RT-STM32F469I-EVAL-SDP-CK1Z-BUTTON/serial_output.JPG "serial_output")
+![serial_output](RT-STM32F469I-EVAL-SDP-CK1Z-ADXL355/terminal_output.JPG "serial_output")
 
 
 ### [RT-STM32F469I-EVAL-SDP-CK1Z-I2C](https://github.com/rbudai98/chibiOS-drivers/tree/main/RT-STM32F469I-EVAL-SDP-CK1Z-I2C) <a name="i2c"></a>
