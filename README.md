@@ -48,7 +48,7 @@ For source code editing and flashing the chibios studio framework is used. One c
     * led, resistor and cables
 
 * Wiring diagram:
-![WIRING_SDPK1_BUTTON](RT-STM32F469I-EVAL-SDP-CK1Z-GPIO/WIRING_SDPK1_GPIO.jpg "WIRING_SDPK1_BUTTON")
+![WIRING_SDPK1_BUTTON](RT-STM32F469I-EVAL-SDP-CK1Z-GPIO/WIRING_SDKP1_GPIO.png "WIRING_SDPK1_BUTTON")
     
 * API:
 
@@ -87,7 +87,7 @@ chThdSleepMilliseconds(1000);
     * button and cables
 
 * Wiring diagram:
-![WIRING_SDPK1_BUTTON](RT-STM32F469I-EVAL-SDP-CK1Z-BUTTON/WIRING_SDPK1_BUTTON.jpg "WIRING_SDPK1_BUTTON")
+![WIRING_SDPK1_BUTTON](RT-STM32F469I-EVAL-SDP-CK1Z-BUTTON/WIRING_SDPK1_BUTTON.png "WIRING_SDPK1_BUTTON")
     
 * API:
 
@@ -116,7 +116,7 @@ After initialization the GPIO pin has been assigned the proper values and is rea
 uint8_t tmp;
 no_os_gpio_get_value(gpio_desc_5, &tmp);
 ```
-The serial output should be the following:
+The serial output looks like the following (Baudrate: ```38400```) :
 ![serial_output](RT-STM32F469I-EVAL-SDP-CK1Z-BUTTON/serial_output.JPG "serial_output")
 
 
@@ -128,7 +128,7 @@ The serial output should be the following:
     * cables
 
 * Wiring diagram:
-![WIRING_SDPK1_ADXL](RT-STM32F469I-EVAL-SDP-CK1Z-ADXL355/WIRING_SDPK1_ADXL355.jpg "WIRING_SDPK1_ADXL")
+![WIRING_SDPK1_ADXL](RT-STM32F469I-EVAL-SDP-CK1Z-ADXL355/WIRING_SDPK1_ADXL355.png "WIRING_SDPK1_ADXL")
     
 * API:
 
@@ -201,8 +201,7 @@ error:
 
 
 
-where the 
-The serial output should be the following:
+The serial output looks like the following (Baudrate: ```38400```) :
 ![serial_output](RT-STM32F469I-EVAL-SDP-CK1Z-ADXL355/terminal_output.JPG "serial_output")
 
 
