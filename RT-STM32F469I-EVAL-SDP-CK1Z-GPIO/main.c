@@ -23,7 +23,7 @@ static THD_WORKING_AREA(waThreadBlinker, 128);
 static struct chibios_gpio_init_param chibios_gpio_extra_ip = {
   .port = GPIOB,
   .pad = 15U,
-  .mode = PAL_MODE_OUTPUT_OPENDRAIN,
+  .mode = PAL_MODE_OUTPUT_PUSHPULL,
 };
 
 static struct no_os_gpio_init_param chibios_GPIO = {
