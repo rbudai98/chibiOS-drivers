@@ -33,7 +33,7 @@ Alternatively one can clone the repository directly into ```C:/ChibiOS/``` with 
 git clone https://github.com/rbudai98/chibiOS-drivers.git
 ```
 ### For Testing <a name="testing"></a>
-* For serial testing install [Putty](https://www.putty.org/) or [Terra Term](https://tera-term.en.softonic.com/).
+* For serial testing install [Putty](https://www.putty.org/) or [Tera Term](https://tera-term.en.softonic.com/).
 
 ## Projects <a name="project"></a>
 ### Opening Project: <a name="open-project"></a>
