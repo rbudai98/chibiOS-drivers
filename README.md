@@ -1,7 +1,6 @@
 ChibiOS and no-OS drivers
 ===========================
-Interfacing solution between ChibiOS HAL and RTOS implmentation and No-OS driver stack
-===========================
+Interfacing solution between ChibiOS Hardware Abstraction Layer/Real Time Operating System and No-OS driver stack
 
 # Table of contents
 1. [Content](#content)
